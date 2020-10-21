@@ -16,15 +16,14 @@
         footnote_ids: [],
         requires: 'widget',
         icons: 'footnotes',
-
+        lang: 'af,ar,az,bg,bn,bs,ca,cs,cy,da,de,de-ch,el,en,en-au,en-ca,en-gb,eo,es,es-mx,et,eu,fa,fi,fo,fr,fr-ca,gl,gu,he,hi,hr,hu,id,is,it,ja,ka,km,ko,ku,lt,lv,mk,mn,ms,nb,nl,no,oc,pl,pt,pt-br,ro,ru,si,sk,sl,sq,sr,sr-latn,sv,th,tr,tt,ug,uk,vi,zh,zh-cn', // %REMOVE_LINE_CORE%
 
         // The plugin initialization logic goes inside this method.
         init: function(editor) {
-
             // Check for jQuery
             // @TODO - remove if/when JQ dep. is removed.
             if (typeof(window.jQuery) == 'undefined') {
-                console.warn('jQuery required but undetected so quitting footnotes.');
+                console.warn(editor.lang.footnotes.jQuery);
                 return false;
             }
 
@@ -123,7 +122,7 @@
             editor.ui.addButton('Footnotes', {
 
                 // The text part of the button (if available) and tooptip.
-                label: 'Insert Footnotes',
+                label: editor.lang.footnotes.label,
 
                 // The command to execute on click.
                 command: 'footnotes',
@@ -191,7 +190,7 @@
             var $footnotes = $contents.find('.footnotes');
 
             if ($footnotes.length == 0) {
-                var header_title = editor.config.footnotesTitle ? editor.config.footnotesTitle : 'Footnotes';
+                var header_title = editor.config.footnotesTitle ? editor.config.footnotesTitle : editor.lang.footnotes.footnotesTitle;
                 var header_els = ['<h2>', '</h2>'];//editor.config.editor.config.footnotesHeaderEls
                 if (editor.config.footnotesHeaderEls) {
                     header_els = editor.config.footnotesHeaderEls;
