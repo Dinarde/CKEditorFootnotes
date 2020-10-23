@@ -57,7 +57,7 @@
                     return;
                 }
                 // Don't reorder the markers if editing a cite:
-                var footnote_section = evt.editor.getSelection().getStartElement().getAscendant('section');
+                var footnote_section = evt.editor.getSelection().getStartElement().getAscendant('div');
                 if (footnote_section && footnote_section.$.className.indexOf('footnotes') != -1) {
                     return;
                 }
@@ -73,9 +73,9 @@
             var prefix = editor.config.footnotesPrefix ? '-' + editor.config.footnotesPrefix : '';
             var def = {
                 header: {
-                    selector: 'header > *',
+                    selector: 'div > *',
                     //allowedContent: ''
-                    allowedContent: 'strong em span sub sup;'
+                    allowedContent: 'div hr strong em span sub sup;'
                 }
             };
             var contents = $('<div>' + editor.element.$.textContent + '</div>')
@@ -89,11 +89,11 @@
             editor.widgets.add('footnotes', {
 
                 // Minimum HTML which is required by this widget to work.
-                requiredContent: 'section(footnotes)',
+                requiredContent: 'div(footnotes)',
 
                 // Check the elements that need to be converted to widgets.
                 upcast: function(element) {
-                    return element.name == 'section' && element.hasClass('footnotes');
+                    return element.name == 'div' && element.hasClass('footnotes');
                 },
 
                 editables: def
@@ -114,8 +114,8 @@
             // Define an editor command that opens our dialog.
             editor.addCommand('footnotes', new CKEDITOR.dialogCommand('footnotesDialog', {
                 // @TODO: This needs work:
-                allowedContent: 'section[*](*);header[*](*);li[*];a[*];cite(*)[*];sup[*]',
-                requiredContent: 'section[*](*);header[*](*);li[*];a[*];cite(*)[*];sup[*]'
+                allowedContent: 'div[*](*);div[*](*);hr[*](*);li[*];a[*];cite(*)[*];sup[*]',
+                requiredContent: 'div[*](*);div[*](*);li[*];a[*];cite(*)[*];sup[*]'
             }));
 
             // Create a toolbar button that executes the above command.
@@ -195,7 +195,7 @@
                 if (editor.config.footnotesHeaderEls) {
                     header_els = editor.config.footnotesHeaderEls;
                 }
-                var container = '<section class="footnotes"><header>' + header_els[0] + header_title + header_els[1] + '</header><ol>' + footnote + '</ol></section>';
+                var container = '<div class="footnotes"><div class="headerFootnotes"><hr />' + header_els[0] + header_title + header_els[1] + '</div><ol>' + footnote + '</ol></div><!-- FIM FOOTNOTE -->';
                 // Move cursor to end of content:
                 var range = editor.createRange();
                 range.moveToElementEditEnd(range.root);
